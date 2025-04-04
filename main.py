@@ -15,6 +15,7 @@ from src.presentation.controller.categoria_controller import categoria_controlle
 from src.presentation.controller.c_h_controller import categoriaHistoria_controller
 from src.presentation.controller.multimedia_controller import multimedia_controller
 from src.presentation.controller.evento_agendable_controller import evento_agendable_controller
+from src.presentation.controller.participante_evento_controller import participante_evento_controller
 
 logging.basicConfig(level=logging.DEBUG)    
 logger = logging.getLogger(__name__)
@@ -41,6 +42,7 @@ app.include_router(categoria_controller)
 app.include_router(categoriaHistoria_controller)
 app.include_router(multimedia_controller)
 app.include_router(evento_agendable_controller)
+app.include_router(participante_evento_controller)
 
 if __name__ == "__main__":
     import uvicorn

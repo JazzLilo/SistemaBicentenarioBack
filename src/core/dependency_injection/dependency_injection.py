@@ -12,7 +12,7 @@ from src.infrastrucutre.repository.categoria_repository import CategoriaReposito
 from src.infrastrucutre.repository.c_h_repository import CategoriaEventoHistoricoRepository
 from src.infrastrucutre.repository.multimedia_repository import MultimediaRespository
 from src.core.services.evento_agendable_service import EventoAgendableRepository
-
+from src.infrastrucutre.repository.participante_evento_repository import ParticipanteEventoRepository
 
 from src.core.services.auditoria_service import AuditoriaService
 from src.core.services.usuario_service import UsuarioService
@@ -25,6 +25,7 @@ from src.core.services.categoria_service import CategoriaService
 from src.core.services.c_h_service import CategoriaEventoHistoricoService
 from src.core.services.multimedia_service import MultimediaService
 from src.core.services.evento_agendable_service import EventoAgendableService
+from src.core.services.participante_evento_service import ParticipanteEventoService
 
 def build_usuario_service(
     conecction = Depends(get_connection)
@@ -80,3 +81,8 @@ def build_evento_agendable_service(
     conecction = Depends(get_connection)
 ):
     return EventoAgendableService(EventoAgendableRepository(conecction))
+
+def build_participante_evento_service(
+    conecction = Depends(get_connection)
+):
+    return ParticipanteEventoService(ParticipanteEventoRepository(conecction))

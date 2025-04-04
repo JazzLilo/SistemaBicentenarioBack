@@ -64,12 +64,16 @@ class ParticipanteEventoRepository:
                     success=False,
                     message="Participante no encontrado"
                 )
-                
+            
+            participante_dict = participante.model_dump()
+            
+            participante_data = ParticipanteEventoWithRelations.model_validate(participante_dict)
+            
             return Response(
                 status=200,
                 success=True,
                 message="Participante encontrado",
-                data=ParticipanteEventoWithRelations.model_validate(participante)
+                data=participante_data
             )
         except Exception as e:
             return Response(
@@ -77,7 +81,7 @@ class ParticipanteEventoRepository:
                 success=False,
                 message=f"Error al obtener participante: {str(e)}"
             )
-    
+            
     async def actualizar_asistencia(
         self, 
         id_usuario: int, 
@@ -153,7 +157,7 @@ class ParticipanteEventoRepository:
                 status=200,
                 success=True,
                 message=f"Se encontraron {len(participantes)} participantes",
-                data=[ParticipanteEventoWithRelations.model_validate(p) for p in participantes]
+                data=[ParticipanteEventoWithRelations.model_validate(p.model_dump()) for p in participantes]
             )
         except Exception as e:
             return Response(

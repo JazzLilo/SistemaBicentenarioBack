@@ -1,5 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
+from src.core.models.usuario_domain import UsuarioInDB
+from src.core.models.evento_agendable_domain import EventoAgendableInDB
 
 class ParticipanteEventoBase(BaseModel):
     id_usuario: int
