@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-py"
 }
@@ -12,7 +6,6 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
 
 model Usuario {
   id                   BigInt      @id @default(autoincrement())
@@ -29,14 +22,16 @@ model Usuario {
   email_verified_at    DateTime?
   ultimoIntentoFallido DateTime?
   codeValidacion       String?     @db.VarChar(250)
-  cantIntentos         Int?        @default(0)
+  cantIntentos         Int         @default(0)
   imagen               String?     @db.VarChar(500)
   roles                UsuarioRol[]
-  eventosOrganizados   Evento[]
+  eventosOrganizados   EventoAgendable[]
   comentarios          Comentario[]
   participaciones      ParticipanteEvento[]
-  favoritos           Favorito[]
-  estadisticas        Estadistica[]
+  favoritos            Favorito[]
+  estadisticas         Estadistica[]
+  auditorias           Auditoria[]
+  agendas              AgendaUsuario[]
 }
 
 model Rol {
@@ -44,28 +39,73 @@ model Rol {
   nombre_rol  String      @db.VarChar(100)
   descripcion String?
   usuarios    UsuarioRol[]
+  @@unique([nombre_rol])
 }
-
 
 model UsuarioRol {
   id_usuario BigInt
   id_rol     BigInt
-  usuario    Usuario @relation(fields: [id_usuario], references: [id])
-  rol        Rol     @relation(fields: [id_rol], references: [id])
-
+  usuario    Usuario @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
+  rol        Rol     @relation(fields: [id_rol], references: [id], onDelete: Cascade)
   @@id([id_usuario, id_rol])
 }
 
 model Ubicacion {
-  id          BigInt      @id @default(autoincrement())
-  nombre      String      @db.VarChar(100)
-  latitud     Float?
-  longitud    Float?
-  imagen      String?     @db.VarChar(500)
-  descripcion String?
-  historias   Historia[]
-  culturas    Cultura[]
-  eventos     Evento[]
+  id               BigInt             @id @default(autoincrement())
+  nombre           String             @db.VarChar(100)
+  latitud          Float?
+  longitud         Float?
+  imagen           String?            @db.VarChar(500)
+  descripcion      String?
+  historias        Historia[]
+  culturas         Cultura[]
+  eventos_historicos EventoHistorico[]
+  eventos_agendables EventoAgendable[]
+  @@index([nombre])
+}
+
+model EventoHistorico {
+  id              BigInt                   @id @default(autoincrement())
+  nombre          String                   @db.VarChar(255)
+  descripcion     String
+  fecha_inicio    DateTime
+  fecha_fin       DateTime?
+  tipo            String                   @db.VarChar(100)
+  ubicacion       Ubicacion?               @relation(fields: [id_ubicacion], references: [id])
+  id_ubicacion    BigInt?
+  bibliotecas     Biblioteca[] @relation("BibliotecasEventoHistorico")
+  documentos      Biblioteca[] @relation("DocumentosEventoHistorico")
+  multimedia      Multimedia[]
+  categorias      CategoriaEventoHistorico[]
+  agendas         AgendaUsuario[]
+  comentarios     Comentario[]
+  @@index([nombre])
+  @@index([fecha_inicio])
+}
+
+model CategoriaEventoHistorico {
+  id_evento    BigInt
+  id_categoria BigInt
+  evento       EventoHistorico @relation(fields: [id_evento], references: [id], onDelete: Cascade)
+  categoria    Categoria       @relation(fields: [id_categoria], references: [id], onDelete: Cascade)
+  @@id([id_evento, id_categoria])
+}
+
+model EventoAgendable {
+  id              BigInt               @id @default(autoincrement())
+  nombre          String               @db.VarChar(255)
+  descripcion     String
+  fecha_hora      DateTime
+  ubicacion       Ubicacion?           @relation(fields: [id_ubicacion], references: [id])
+  id_ubicacion    BigInt?
+  organizador     Usuario              @relation(fields: [id_organizador], references: [id])
+  id_organizador  BigInt
+  participantes   ParticipanteEvento[]
+  agendas         AgendaUsuario[]
+  comentarios     Comentario[]
+  imagen          String?              @db.VarChar(500)
+  @@index([nombre])
+  @@index([fecha_hora])
 }
 
 model Categoria {
@@ -73,19 +113,22 @@ model Categoria {
   nombre_categoria String     @db.VarChar(100)
   descripcion     String?
   historias       Historia[]
+  eventos         CategoriaEventoHistorico[]
+  @@unique([nombre_categoria])
 }
 
 model Historia {
-  id           BigInt    @id @default(autoincrement())
-  titulo       String    @db.VarChar(255)
+  id           BigInt      @id @default(autoincrement())
+  titulo       String      @db.VarChar(255)
   descripcion  String
   fecha_inicio DateTime?
   fecha_fin    DateTime?
-  imagen       String?   @db.VarChar(500)
-  ubicacion    Ubicacion? @relation(fields: [id_ubicacion], references: [id])
+  imagen       String?     @db.VarChar(500)
+  ubicacion    Ubicacion?  @relation(fields: [id_ubicacion], references: [id])
   id_ubicacion BigInt?
-  categoria    Categoria @relation(fields: [id_categoria], references: [id])
+  categoria    Categoria   @relation(fields: [id_categoria], references: [id])
   id_categoria BigInt
+  @@index([titulo])
 }
 
 model Presidente {
@@ -97,45 +140,54 @@ model Presidente {
   periodo_fin      DateTime?
   biografia       String?
   partido_politico String?   @db.VarChar(100)
-  politicas_clave String?
+  politicas_clave  String?
+  @@index([nombre, apellido])
 }
 
 model Cultura {
-  id          BigInt    @id @default(autoincrement())
-  nombre      String    @db.VarChar(100)
-  imagen      String?   @db.VarChar(500)
+  id          BigInt      @id @default(autoincrement())
+  nombre      String      @db.VarChar(100)
+  imagen      String?     @db.VarChar(500)
   descripcion String
-  ubicacion   Ubicacion? @relation(fields: [id_ubicacion], references: [id])
+  ubicacion   Ubicacion?  @relation(fields: [id_ubicacion], references: [id])
   id_ubicacion BigInt?
-}
-
-model Evento {
-  id           BigInt    @id @default(autoincrement())
-  nombre       String    @db.VarChar(255)
-  descripcion  String
-  fecha_hora   DateTime
-  ubicacion    Ubicacion? @relation(fields: [id_ubicacion], references: [id])
-  id_ubicacion BigInt?
-  organizador  Usuario   @relation(fields: [id_organizador], references: [id])
-  id_organizador BigInt
-  imagen       String?   @db.VarChar(500)
-  participantes ParticipanteEvento[]
-  comentarios  Comentario[]
+  @@index([nombre])
 }
 
 model ParticipanteEvento {
   id_usuario       BigInt
   id_evento        BigInt
-  usuario          Usuario @relation(fields: [id_usuario], references: [id])
-  evento           Evento  @relation(fields: [id_evento], references: [id])
-  estado_asistencia Boolean @default(false)
-
+  usuario          Usuario        @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
+  evento           EventoAgendable @relation(fields: [id_evento], references: [id], onDelete: Cascade)
+  estado_asistencia Boolean       @default(false)
   @@id([id_usuario, id_evento])
+  @@index([id_evento])
+}
+
+model AgendaUsuario {
+  id                BigInt           @id @default(autoincrement())
+  usuario           Usuario          @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
+  id_usuario        BigInt
+  evento_historico  EventoHistorico? @relation(fields: [id_evento_historico], references: [id], onDelete: Cascade)
+  id_evento_historico BigInt?
+  evento_agendable  EventoAgendable? @relation(fields: [id_evento_agendable], references: [id], onDelete: Cascade)
+  id_evento_agendable BigInt?
+  fecha_recordatorio DateTime?
+  @@index([id_usuario])
+  @@unique([id_usuario, id_evento_historico, id_evento_agendable])
+}
+
+model Multimedia {
+  id               BigInt           @id @default(autoincrement())
+  url              String           @db.VarChar(500)
+  tipo             String           @db.VarChar(50)
+  evento_historico EventoHistorico? @relation(fields: [id_evento_historico], references: [id], onDelete: Cascade)
+  id_evento_historico BigInt?
 }
 
 model TipoDocumento {
-  id_tipo      Int        @id @default(autoincrement())
-  tipo         String     @unique @db.VarChar(255)
+  id_tipo      Int         @id @default(autoincrement())
+  tipo         String      @unique @db.VarChar(255)
   bibliotecas  Biblioteca[]
 }
 
@@ -150,35 +202,57 @@ model Biblioteca {
   id_tipo           Int
   fuente            String?       @db.VarChar(255)
   enlace            String?
+  eventos_historicos EventoHistorico[] @relation("DocumentosEventoHistorico")
+  bibliotecas       EventoHistorico[] @relation("BibliotecasEventoHistorico")
   comentarios       Comentario[]
+  @@index([titulo])
+  @@index([autor])
 }
 
 model Comentario {
-  id           BigInt     @id @default(autoincrement())
-  usuario      Usuario    @relation(fields: [id_usuario], references: [id])
+  id           BigInt       @id @default(autoincrement())
+  usuario      Usuario      @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
   id_usuario   BigInt
   contenido    String
-  fecha        DateTime   @default(now())
-  biblioteca   Biblioteca? @relation(fields: [id_biblioteca], references: [id])
+  fecha        DateTime     @default(now())
+  biblioteca   Biblioteca?  @relation(fields: [id_biblioteca], references: [id], onDelete: Cascade)
   id_biblioteca BigInt?
-  evento       Evento?     @relation(fields: [id_evento], references: [id])
-  id_evento    BigInt?
+  evento_agendable EventoAgendable? @relation(fields: [id_evento_agendable], references: [id], onDelete: Cascade)
+  id_evento_agendable BigInt?
+  evento_historico EventoHistorico? @relation(fields: [id_evento_historico], references: [id], onDelete: Cascade)
+  id_evento_historico BigInt?
 }
 
 model Favorito {
-  id           BigInt   @id @default(autoincrement())
-  usuario      Usuario  @relation(fields: [id_usuario], references: [id])
-  id_usuario   BigInt
+  id              BigInt    @id @default(autoincrement())
+  usuario         Usuario   @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
+  id_usuario      BigInt
+  tipo_referencia String    @db.VarChar(50)
   id_referenciado BigInt
+  @@index([tipo_referencia, id_referenciado])
+  @@unique([id_usuario, tipo_referencia, id_referenciado])
+}
+
+model Auditoria {
+  id         BigInt    @id @default(autoincrement())
+  tipo       String    @db.VarChar(50)
+  detalle    String?
+  fecha      DateTime  @default(now())
+  usuario    Usuario?  @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
+  id_usuario BigInt?
+  @@index([tipo])
+  @@index([fecha])
 }
 
 model Estadistica {
-  id         BigInt   @id @default(autoincrement())
+  id         BigInt         @id @default(autoincrement())
   tipo       EstadisticaTipo
   detalle    String?
-  fecha      DateTime @default(now())
-  usuario    Usuario? @relation(fields: [id_usuario], references: [id])
+  fecha      DateTime       @default(now())
+  usuario    Usuario?       @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
   id_usuario BigInt?
+  @@index([tipo])
+  @@index([fecha])
 }
 
 enum EstadisticaTipo {
@@ -186,5 +260,3 @@ enum EstadisticaTipo {
   Consulta
   Busqueda
 }
-
-

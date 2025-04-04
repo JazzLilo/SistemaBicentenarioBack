@@ -1,11 +1,7 @@
-from typing import List, Optional
 from prisma import Prisma
-from src.core.models.presidente_domain import (
-    PresidenteCreate,
-    PresidenteInDB,
-    PresidenteUpdate
-)
+from src.core.models.presidente_domain import PresidenteCreate, PresidenteInDB, PresidenteUpdate
 from src.responses.response import Response
+
 
 class PresidenteRepository:
     def __init__(self, connection: Prisma):
@@ -13,7 +9,7 @@ class PresidenteRepository:
 
     async def crear_presidente(self, presidente: PresidenteCreate) -> Response:
         try:
-            presidente_data = {
+            presidente_db = await self.connection.presidente.create({
                 'nombre': presidente.nombre,
                 'apellido': presidente.apellido,
                 'imagen': presidente.imagen,
@@ -22,13 +18,13 @@ class PresidenteRepository:
                 'biografia': presidente.biografia,
                 'partido_politico': presidente.partido_politico,
                 'politicas_clave': presidente.politicas_clave
-            }
-            presidente_db = await self.connection.presidente.create(data=presidente_data)
+            })
+            presidente = [PresidenteInDB.model_validate(presidente_db.model_dump())]
             return Response(
                 status=201,
                 success=True,
                 message="Presidente creado exitosamente",
-                data=PresidenteInDB.model_validate(presidente_db)
+                data=presidente
             )
         except Exception as e:
             return Response(
@@ -36,28 +32,17 @@ class PresidenteRepository:
                 success=False,
                 message=f"Error al crear presidente: {str(e)}"
             )
-
-    async def obtener_presidentes(
-        self,
-        skip: int = 0,
-        limit: int = 100,
-        partido: Optional[str] = None,
-        periodo_activo: bool = False
-    ) -> Response:
+            
+    async def obtener_presidentes(self, skip: int = 0, limit: int = 100) -> Response:
         try:
-            where_conditions = {}
-            if partido:
-                where_conditions['partido_politico'] = partido
-            if periodo_activo:
-                where_conditions['periodo_fin'] = None  # Solo presidentes activos
-
             presidentes_db = await self.connection.presidente.find_many(
                 skip=skip,
                 take=limit,
-                where=where_conditions,
-                order={'periodo_inicio': 'desc'}
+                include={
+                    'usuarios': False 
+                }
             )
-            presidentes = [PresidenteInDB.model_validate(p) for p in presidentes_db]
+            presidentes = [PresidenteInDB.model_validate(p.model_dump()) for p in presidentes_db]
             return Response(
                 status=200,
                 success=True,
@@ -70,23 +55,27 @@ class PresidenteRepository:
                 success=False,
                 message=f"Error al obtener presidentes: {str(e)}"
             )
-
+    
     async def obtener_presidente_por_id(self, presidente_id: int) -> Response:
         try:
             presidente_db = await self.connection.presidente.find_unique(
-                where={'id': presidente_id}
+                where={
+                    'id': presidente_id
+                }
             )
             if not presidente_db:
                 return Response(
                     status=404,
                     success=False,
-                    message="Presidente no encontrado"
+                    message="Presidente no encontrado",
+                    data=None
                 )
+            presidente = PresidenteInDB.model_validate(presidente_db.model_dump())
             return Response(
                 status=200,
                 success=True,
                 message="Presidente encontrado",
-                data=PresidenteInDB.model_validate(presidente_db)
+                data=presidente
             )
         except Exception as e:
             return Response(
@@ -94,30 +83,21 @@ class PresidenteRepository:
                 success=False,
                 message=f"Error al obtener presidente: {str(e)}"
             )
-
-    async def actualizar_presidente(
-        self,
-        presidente_id: int,
-        presidente: PresidenteUpdate
-    ) -> Response:
+    
+    async def actualizar_presidente(self, presidente_id: int, presidente: PresidenteUpdate) -> Response:
         try:
-            data = presidente.model_dump(exclude_unset=True)
-            if not data:
-                return Response(
-                    status=400,
-                    success=False,
-                    message="No se proporcionaron datos para actualizar"
-                )
-            
             presidente_db = await self.connection.presidente.update(
-                where={'id': presidente_id},
-                data=data
+                where={
+                    'id': presidente_id
+                },
+                data=presidente.model_dump(exclude_unset=True)
             )
+            presidente = PresidenteInDB.model_validate(presidente_db.model_dump())
             return Response(
                 status=200,
                 success=True,
                 message="Presidente actualizado exitosamente",
-                data=PresidenteInDB.model_validate(presidente_db)
+                data=presidente
             )
         except Exception as e:
             return Response(
@@ -128,24 +108,16 @@ class PresidenteRepository:
 
     async def eliminar_presidente(self, presidente_id: int) -> Response:
         try:
-            # Primero verificar si existe
-            presidente = await self.connection.presidente.find_unique(
-                where={'id': presidente_id}
-            )
-            if not presidente:
-                return Response(
-                    status=404,
-                    success=False,
-                    message="Presidente no encontrado"
-                )
-                
-            await self.connection.presidente.delete(
-                where={'id': presidente_id}
+            presidente_db = await self.connection.presidente.delete(
+                where={
+                    'id': presidente_id
+                }
             )
             return Response(
                 status=200,
                 success=True,
-                message="Presidente eliminado exitosamente"
+                message="Presidente eliminado exitosamente",
+                data=presidente_db
             )
         except Exception as e:
             return Response(

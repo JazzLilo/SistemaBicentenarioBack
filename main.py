@@ -5,11 +5,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.presentation.controller.user_controller import user_controller
-from src.presentation.controller.ubicacion_controller import ubicacion_controller
-from src.presentation.controller.categoria_controller import categoria_controller
-from src.presentation.controller.historia_controller import historia_controller
 from src.presentation.controller.role_controller import rol_controller
 from src.presentation.controller.user_role_controller import user_role_controller
+from src.presentation.controller.auditoria_controller import auditoria_controller
+from src.presentation.controller.presidente_controller import presidente_controller
+from src.presentation.controller.ubicacion_controller import ubicacion_controller
 
 logging.basicConfig(level=logging.DEBUG)    
 logger = logging.getLogger(__name__)
@@ -26,11 +26,11 @@ app.add_middleware(
 )
 
 app.include_router(user_controller)
-app.include_router(ubicacion_controller)
-app.include_router(categoria_controller)
-app.include_router(historia_controller)
 app.include_router(rol_controller)
 app.include_router(user_role_controller)
+app.include_router(auditoria_controller)
+app.include_router(presidente_controller)
+app.include_router(ubicacion_controller)
 
 if __name__ == "__main__":
     import uvicorn
