@@ -2,37 +2,37 @@ from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel
 from src.core.models.ubicacion_domain import UbicacionInDB
+from src.core.models.usuario_domain import UsuarioInDB
 
-class EventoHistoricoBase(BaseModel):
+
+class EventoAgendableBase(BaseModel):
     nombre: str
     descripcion: str
-    fecha_inicio: datetime
-    fecha_fin: Optional[datetime] = None
-    tipo: str
+    fecha_hora: datetime
     id_ubicacion: Optional[int] = None
+    id_organizador: int
+    imagen: Optional[str] = None
 
-class EventoHistoricoCreate(EventoHistoricoBase):
+class EventoAgendableCreate(EventoAgendableBase):
     pass
 
-class EventoHistoricoUpdate(BaseModel):
+class EventoAgendableUpdate(BaseModel):
     nombre: Optional[str] = None
     descripcion: Optional[str] = None
-    fecha_inicio: Optional[datetime] = None
-    fecha_fin: Optional[datetime] = None
-    tipo: Optional[str] = None
+    fecha_hora: Optional[datetime] = None
     id_ubicacion: Optional[int] = None
+    imagen: Optional[str] = None
 
-class EventoHistoricoInDB(EventoHistoricoBase):
+class EventoAgendableInDB(EventoAgendableBase):
     id: int
     ubicacion: Optional[UbicacionInDB] = None
-
+    organizador: Optional[UsuarioInDB] = None
     class Config:
         from_attributes = True
 
-class EventoHistoricoWithRelations(EventoHistoricoInDB):
+class EventoAgendableWithRelations(EventoAgendableInDB):
     ubicacion: Optional[UbicacionInDB] = None
-    bibliotecas: List['BibliotecaInDB'] = []
-    documentos: List['BibliotecaInDB'] = []
-    multimedia: List['MultimediaInDB'] = []
+    organizador: UsuarioInDB
+    participantes: List['ParticipanteEventoInDB'] = []
     agendas: List['AgendaUsuarioInDB'] = []
     comentarios: List['ComentarioInDB'] = []

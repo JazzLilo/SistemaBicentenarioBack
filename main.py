@@ -11,6 +11,10 @@ from src.presentation.controller.auditoria_controller import auditoria_controlle
 from src.presentation.controller.presidente_controller import presidente_controller
 from src.presentation.controller.ubicacion_controller import ubicacion_controller
 from src.presentation.controller.evento_historico_controller import eventoHistorico_controller
+from src.presentation.controller.categoria_controller import categoria_controller
+from src.presentation.controller.c_h_controller import categoriaHistoria_controller
+from src.presentation.controller.multimedia_controller import multimedia_controller
+from src.presentation.controller.evento_agendable_controller import evento_agendable_controller
 
 logging.basicConfig(level=logging.DEBUG)    
 logger = logging.getLogger(__name__)
@@ -33,6 +37,10 @@ app.include_router(auditoria_controller)
 app.include_router(presidente_controller)
 app.include_router(ubicacion_controller)
 app.include_router(eventoHistorico_controller)
+app.include_router(categoria_controller)
+app.include_router(categoriaHistoria_controller)
+app.include_router(multimedia_controller)
+app.include_router(evento_agendable_controller)
 
 if __name__ == "__main__":
     import uvicorn

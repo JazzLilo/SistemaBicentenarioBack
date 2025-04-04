@@ -8,6 +8,11 @@ from src.infrastrucutre.repository.rol_repository import RolRepository
 from src.infrastrucutre.repository.presidente_repository import PresidenteRepository
 from src.infrastrucutre.repository.ubicacion_respository import UbicacionRepository
 from src.infrastrucutre.repository.evento_historico_repository import EventoHistoricoRepository
+from src.infrastrucutre.repository.categoria_repository import CategoriaRepository
+from src.infrastrucutre.repository.c_h_repository import CategoriaEventoHistoricoRepository
+from src.infrastrucutre.repository.multimedia_repository import MultimediaRespository
+from src.core.services.evento_agendable_service import EventoAgendableRepository
+
 
 from src.core.services.auditoria_service import AuditoriaService
 from src.core.services.usuario_service import UsuarioService
@@ -16,6 +21,10 @@ from src.core.services.rol_service import RolService
 from src.core.services.presidente_service import PresidenteService
 from src.core.services.ubicacion_service import UbicacionService
 from src.core.services.evento_historico_service import EventoHistoricoService
+from src.core.services.categoria_service import CategoriaService
+from src.core.services.c_h_service import CategoriaEventoHistoricoService
+from src.core.services.multimedia_service import MultimediaService
+from src.core.services.evento_agendable_service import EventoAgendableService
 
 def build_usuario_service(
     conecction = Depends(get_connection)
@@ -51,3 +60,23 @@ def build_evento_historico_service(
     conecction = Depends(get_connection)
 ):
     return EventoHistoricoService(EventoHistoricoRepository(conecction))
+
+def build_categoria_service(
+    conecction = Depends(get_connection)
+):
+    return CategoriaService(CategoriaRepository(conecction))
+
+def build_categoria_evento_historico_service (
+    conecction = Depends(get_connection)
+):
+    return CategoriaEventoHistoricoService(CategoriaEventoHistoricoRepository(conecction))
+
+def build_multimedia_service(
+    conecction = Depends(get_connection)
+):
+    return MultimediaService(MultimediaRespository(conecction))
+
+def build_evento_agendable_service(
+    conecction = Depends(get_connection)
+):
+    return EventoAgendableService(EventoAgendableRepository(conecction))
