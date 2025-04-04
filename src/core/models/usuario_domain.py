@@ -1,13 +1,13 @@
 from typing import Optional
 from datetime import datetime
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, validator
 
 
 class UsuarioBase(BaseModel):
     nombre: str
     apellidoPaterno: str
     apellidoMaterno: str
-    correo: EmailStr
+    correo: str
     genero: str
     telefono: str
     pais: str
@@ -24,15 +24,15 @@ class UsuarioCreate(UsuarioBase):
         return v
 
 class UsuarioLogin(BaseModel):
-    correo: EmailStr
+    correo: str
     contrasena: str
     
 class UsuarioCodeValidation(BaseModel):
-    correo: EmailStr
+    correo: str
     codeValidacion: str
 
 class UsuarioResetPassword(BaseModel):
-    correo: EmailStr
+    correo: str
     contrasena: str
     codeValidacion: str
 

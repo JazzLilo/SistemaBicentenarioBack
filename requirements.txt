@@ -1,6 +1,7 @@
 fastapi
 prisma
 pydantic
+pydantic[email]
 pydantic_core
 python-dotenv
 uvicorn
