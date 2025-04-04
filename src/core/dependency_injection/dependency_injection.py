@@ -7,6 +7,7 @@ from src.infrastrucutre.repository.usuario_rol_repository import UsuarioRolRepos
 from src.infrastrucutre.repository.rol_repository import RolRepository
 from src.infrastrucutre.repository.presidente_repository import PresidenteRepository
 from src.infrastrucutre.repository.ubicacion_respository import UbicacionRepository
+from src.infrastrucutre.repository.evento_historico_repository import EventoHistoricoRepository
 
 from src.core.services.auditoria_service import AuditoriaService
 from src.core.services.usuario_service import UsuarioService
@@ -14,6 +15,7 @@ from src.core.services.usuario_rol_sevice import UsuarioRolService
 from src.core.services.rol_service import RolService
 from src.core.services.presidente_service import PresidenteService
 from src.core.services.ubicacion_service import UbicacionService
+from src.core.services.evento_historico_service import EventoHistoricoService
 
 def build_usuario_service(
     conecction = Depends(get_connection)
@@ -44,3 +46,8 @@ def build_ubicacion_service(
     conecction = Depends(get_connection)
 ):
     return UbicacionService(UbicacionRepository(conecction))
+
+def build_evento_historico_service(
+    conecction = Depends(get_connection)
+):
+    return EventoHistoricoService(EventoHistoricoRepository(conecction))

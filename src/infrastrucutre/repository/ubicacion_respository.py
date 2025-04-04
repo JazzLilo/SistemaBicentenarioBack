@@ -16,10 +16,14 @@ class UbicacionRepository:
                 'imagen': ubicacion.imagen,
                 'descripcion': ubicacion.descripcion
             })
+            
+            id_ubicacion = ubicacion_db.id
+            
             return Response(
                 status=201,
-                success=True,
-                message="Ubicación creada exitosamente"
+                success=True,   
+                message="Ubicación creada exitosamente",
+                data=id_ubicacion
             )
         except Exception as e:
             return Response(
