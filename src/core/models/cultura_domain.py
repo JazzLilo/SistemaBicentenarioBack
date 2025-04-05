@@ -1,6 +1,5 @@
 from typing import Optional
 from pydantic import BaseModel
-from src.core.models.ubicacion_domain import UbicacionInDB
 
 class CulturaBase(BaseModel):
     nombre: str

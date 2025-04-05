@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
-from src.core.models.ubicacion_domain import UbicacionInDB
 from src.core.models.categoria_domain import CategoriaInDB
 
 class HistoriaBase(BaseModel):

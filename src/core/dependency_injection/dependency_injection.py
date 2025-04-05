@@ -16,6 +16,10 @@ from src.infrastrucutre.repository.participante_evento_repository import Partici
 from src.infrastrucutre.repository.agenda_usuario_repository import AgendaUsuarioRepository
 from src.infrastrucutre.repository.historia_repository import HistoriaRepository
 from src.infrastrucutre.repository.cultura_repository import CulturaRepository
+from src.infrastrucutre.repository.tipo_documento_repository import TipoDocumentoRepository
+from src.infrastrucutre.repository.biblioteca_repository import BibliotecaRepository
+from src.infrastrucutre.repository.comentario_repository import ComentarioRepository
+
 
 from src.core.services.auditoria_service import AuditoriaService
 from src.core.services.usuario_service import UsuarioService
@@ -32,6 +36,9 @@ from src.core.services.participante_evento_service import ParticipanteEventoServ
 from src.core.services.agenda_usuario_service import AgendaUsuarioService
 from src.core.services.historia_service import HistoriaService
 from src.core.services.cultura_service import CulturaService
+from src.core.services.tipo_documento_service import TipoDocumentoService
+from src.core.services.biblioteca_service import BibliotecaService
+from src.core.services.comentario_service import ComentarioService
 
 def build_usuario_service(
     conecction = Depends(get_connection)
@@ -107,4 +114,19 @@ def build_cultura_service(
     conecction = Depends(get_connection)
 ):
     return CulturaService(CulturaRepository(conecction))
+
+def build_tipo_documento_service(
+    conecction = Depends(get_connection)
+):
+    return TipoDocumentoService(TipoDocumentoRepository(conecction))
+
+def build_biblioteca_service(
+    conecction = Depends(get_connection)
+):
+    return BibliotecaService(BibliotecaRepository(conecction))
+
+def build_comentario_service(
+    conecction = Depends(get_connection)
+):
+    return ComentarioService(ComentarioRepository(conecction))
 

@@ -1,9 +1,9 @@
 from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel
-from src.core.models.ubicacion_domain import UbicacionInDB
 from src.core.models.usuario_domain import UsuarioInDB
-
+from src.core.models.participante_evento_domain import ParticipanteEventoInDB
+from src.core.models.agenda_usuario_domain import AgendaUsuarioInDB
 
 class EventoAgendableBase(BaseModel):
     nombre: str
@@ -25,13 +25,13 @@ class EventoAgendableUpdate(BaseModel):
 
 class EventoAgendableInDB(EventoAgendableBase):
     id: int
-    ubicacion: Optional[UbicacionInDB] = None
+    ubicacion: Optional['UbicacionInDB'] = None
     organizador: Optional[UsuarioInDB] = None
     class Config:
         from_attributes = True
 
 class EventoAgendableWithRelations(EventoAgendableInDB):
-    ubicacion: Optional[UbicacionInDB] = None
+    ubicacion: Optional['UbicacionInDB'] = None
     organizador: UsuarioInDB
     participantes: List['ParticipanteEventoInDB'] = []
     agendas: List['AgendaUsuarioInDB'] = []
