@@ -15,6 +15,7 @@ from src.core.services.evento_agendable_service import EventoAgendableRepository
 from src.infrastrucutre.repository.participante_evento_repository import ParticipanteEventoRepository
 from src.infrastrucutre.repository.agenda_usuario_repository import AgendaUsuarioRepository
 from src.infrastrucutre.repository.historia_repository import HistoriaRepository
+from src.infrastrucutre.repository.cultura_repository import CulturaRepository
 
 from src.core.services.auditoria_service import AuditoriaService
 from src.core.services.usuario_service import UsuarioService
@@ -30,6 +31,7 @@ from src.core.services.evento_agendable_service import EventoAgendableService
 from src.core.services.participante_evento_service import ParticipanteEventoService
 from src.core.services.agenda_usuario_service import AgendaUsuarioService
 from src.core.services.historia_service import HistoriaService
+from src.core.services.cultura_service import CulturaService
 
 def build_usuario_service(
     conecction = Depends(get_connection)
@@ -100,4 +102,9 @@ def build_historia_service(
     conecction = Depends(get_connection)
 ):
     return HistoriaService(HistoriaRepository(conecction))
+
+def build_cultura_service(
+    conecction = Depends(get_connection)
+):
+    return CulturaService(CulturaRepository(conecction))
 
