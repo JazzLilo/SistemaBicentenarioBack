@@ -1,12 +1,8 @@
 from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel
-from src.core.models.biblioteca_domain import BibliotecaInDB
 from src.core.models.multimedia_domain import MultimediaInDB
-from src.core.models.agenda_usuario_domain import AgendaUsuarioInDB
-from src.core.models.comentario_domain import ComentarioInDB
-from src.core.models.biblioteca_domain import BibliotecaInDB
-
+from src.core.models.ubicacion_domain import UbicacionInDB
 
 class EventoHistoricoBase(BaseModel):
     nombre: str

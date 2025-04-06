@@ -200,12 +200,12 @@ usuarios = [
 ]
  
 roles = [
-        {"nombre_rol": "usuario", "descripcion": "usuario", "id": 1},
-        {"nombre_rol": "administrador", "descripcion": "admin", "id": 2},
-        {"nombre_rol": "cultural", "descripcion": "cultural", "id": 3},
-        {"nombre_rol": "academico", "descripcion": "academico", "id": 4},
-        {"nombre_rol": "organizador", "descripcion": "organizador", "id": 5},
-        {"nombre_rol": "controlador", "descripcion": "controlador", "id": 6},
+        {"nombre_rol": "usuario", "descripcion": "usuario"},
+        {"nombre_rol": "administrador", "descripcion": "admin"},
+        {"nombre_rol": "cultural", "descripcion": "cultural"},
+        {"nombre_rol": "academico", "descripcion": "academico"},
+        {"nombre_rol": "organizador", "descripcion": "organizador"},
+        {"nombre_rol": "controlador", "descripcion": "controlador"},
     ]
 
 categorias = [
@@ -996,7 +996,7 @@ historias = [
         "titulo": "El Último Día de la Guerra del Chaco",
         "descripcion": "Narración personal de un soldado boliviano durante el conflicto con Paraguay",
         "fecha_inicio": "1935-06-12T00:00:00Z",
-        "fecha_fin": None,
+        "fecha_fin": "1935-06-12T00:00:00Z",
         "imagen": "https://example.com/guerra_chaco.jpg",
         "id_ubicacion": 6,
         "id_categoria": 1
@@ -1005,7 +1005,7 @@ historias = [
         "titulo": "La Fundación de La Paz",
         "descripcion": "Cómo Alonso de Mendoza estableció la ciudad de Nuestra Señora de La Paz",
         "fecha_inicio": "1548-10-20T00:00:00Z",
-        "fecha_fin": None,
+        "fecha_fin": "1548-10-20T00:00:00Z",
         "imagen": "https://example.com/fundacion_lapaz.jpg",
         "id_ubicacion": 1,
         "id_categoria": 3
@@ -1013,8 +1013,8 @@ historias = [
     {
         "titulo": "El Misterio de la Puerta del Sol",
         "descripcion": "Teorías sobre el significado y origen del famoso monumento tiwanakota",
-        "fecha_inicio": "500-01-01T00:00:00Z",
-        "fecha_fin": None,
+        "fecha_inicio": "1500-01-01T00:00:00Z",
+        "fecha_fin": "1500-01-01T00:00:00Z",
         "imagen": "https://example.com/puerta_sol_historia.jpg",
         "id_ubicacion": 13,
         "id_categoria": 3
@@ -1023,7 +1023,7 @@ historias = [
         "titulo": "La Vida en las Misiones Jesuíticas",
         "descripcion": "Cómo vivían los indígenas en las reducciones jesuíticas del oriente boliviano",
         "fecha_inicio": "1696-01-01T00:00:00Z",
-        "fecha_fin": "1767-01-01T00:00:00Z",
+        "fecha_fin": "1696-01-01T00:00:00Z",
         "imagen": "https://example.com/misiones_vida.jpg",
         "id_ubicacion": 15,
         "id_categoria": 3
@@ -1032,7 +1032,7 @@ historias = [
         "titulo": "La Batalla de Ingavi",
         "descripcion": "Relato de la victoria boliviana sobre Perú que consolidó la independencia",
         "fecha_inicio": "1841-11-18T00:00:00Z",
-        "fecha_fin": None,
+        "fecha_fin": "1841-11-18T00:00:00Z",
         "imagen": "https://example.com/batalla_ingavi.jpg",
         "id_ubicacion": 1,
         "id_categoria": 1
@@ -1041,7 +1041,7 @@ historias = [
         "titulo": "El Primer Ferrocarril en Bolivia",
         "descripcion": "Cómo se construyó el ferrocarril entre Antofagasta y Oruro y su impacto económico",
         "fecha_inicio": "1873-01-01T00:00:00Z",
-        "fecha_fin": "1892-01-01T00:00:00Z",
+        "fecha_fin": "1873-01-01T00:00:00Z",
         "imagen": "https://example.com/ferrocarril_bolivia.jpg",
         "id_ubicacion": 2,
         "id_categoria": 3
@@ -1059,9 +1059,9 @@ historias = [
         "titulo": "El Origen de los Uru-Chipaya",
         "descripcion": "Relato mítico sobre los ancestros que emergieron de las aguas del lago y fundaron la cultura Uru-Chipaya",
         "fecha_inicio": "1000-01-01T00:00:00Z",
-        "fecha_fin": None,
+        "fecha_fin": "1000-01-01T00:00:00Z",
         "imagen": "https://example.com/origen_uru_chipaya.jpg",
-        "id_ubicacion": 21,
+        "id_ubicacion": 18,
         "id_categoria": 3
     }
 ]
@@ -1376,8 +1376,18 @@ async def seed_tipos_documentos():
 
 async def seed_bibliotecas_eventos():
     for biblioteca_evento in bibliotecas_eventos:
-        await db.biblioteca.create(data=biblioteca_evento)
-
+        document = await db.biblioteca.create({
+            "titulo": biblioteca_evento["titulo"],
+            "autor": biblioteca_evento["autor"],
+            "imagen": biblioteca_evento["imagen"],
+            "fecha_publicacion": biblioteca_evento["fecha_publicacion"],
+            "edicion": biblioteca_evento["edicion"],
+            "fuente": biblioteca_evento["fuente"],
+            "enlace": biblioteca_evento["enlace"],
+            "id_tipo": biblioteca_evento["id_tipo"],	
+        })
+        
+            
 async def main():
 
     await db.connect()
@@ -1400,8 +1410,6 @@ async def main():
         seed_tipos_documentos(),
         seed_bibliotecas_eventos(),
     )
-
-    # Desconectamos de la base de datos una vez que se han insertado todos los datos
     await db.disconnect()
 
 if __name__ == "__main__":

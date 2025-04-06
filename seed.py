@@ -61,3 +61,4 @@ async def seed_categorias():
 
 if __name__ == "__main__":
     asyncio.run(seed_categorias())
+    

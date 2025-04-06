@@ -1,9 +1,5 @@
 from typing import Optional, List
 from pydantic import BaseModel
-from src.core.models.historia_domain import HistoriaInDB
-from src.core.models.cultura_domain import CulturaInDB
-from src.core.models.evento_historico_domain import EventoHistoricoInDB
-from src.core.models.evento_agendable_domain import EventoAgendableInDB
 
 class UbicacionBase(BaseModel):
     nombre: str

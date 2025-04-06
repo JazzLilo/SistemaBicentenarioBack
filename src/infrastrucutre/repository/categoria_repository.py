@@ -13,7 +13,7 @@ class CategoriaRepository:
                 skip=skip,
                 take=limit
             )
-            categorias = [CategoriaBase.model_validate(categoria_db.model_dump()) for categoria_db in categorias_db]
+            categorias = [CategoriaInDB.model_validate(categoria_db.model_dump()) for categoria_db in categorias_db]
             return Response(
                 status=200,
                 success=True,
