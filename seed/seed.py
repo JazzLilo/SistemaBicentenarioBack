@@ -1315,66 +1315,82 @@ bibliotecas_eventos = [
 
 db = Prisma()
 async def seed_usuarios():
+    print('--- Migrando usuarios ---')
     for usuario in usuarios:
         await db.usuario.create(data=usuario)
-
+    
 async def seed_roles():
+    print('--- Migrando roles ---')
     for rol in roles:
         await db.rol.create(data=rol)
 
 async def seed_usuario_roles():
+    print('--- Migrando usuario_roles ---')
     for usuario_rol in usuario_roles:
         await db.usuariorol.create(data=usuario_rol)
 
 async def seed_categorias():
+    print('--- Migrando categorias ---')
     for categoria in categorias:
         await db.categoria.create(data=categoria)
 
 async def seed_ubicaciones():
+    print('--- Migrando ubicaciones ---')
     for ubicacion in ubicaciones:
         await db.ubicacion.create(data=ubicacion)
 
 async def seed_eventos_historicos():
+    print('--- Migrando eventos historicos ---')
     for evento_historico in eventos_historicos:
         await db.eventohistorico.create(data=evento_historico)
 
 async def seed_eventos_historicos_categorias():
+    print('--- Migrando eventos historicos categorias ---')
     for evento_historico_categoria in categorias_evento_historico:
         await db.categoriaeventohistorico.create(data=evento_historico_categoria)
 
 async def seed_eventos_agendables():
+    print('--- Migrando eventos agendables ---')
     for evento_agendable in eventos_agendables:
         await db.eventoagendable.create(data=evento_agendable)
 
 async def seed_participantes_evento():
+    print('--- Migrando participantes evento ---')
     for participante_evento in participantes_evento:
         await db.participanteevento.create(data=participante_evento)
 
 async def seed_presidentes():
+    print('--- Migrando presidentes ---')
     for presidente in presidentes:
         await db.presidente.create(data=presidente)
 
 async def seed_culturas():
+    print('--- Migrando culturas ---')
     for cultura in culturas:
         await db.cultura.create(data=cultura)
 
 async def seed_historias():
+    print('--- Migrando historias ---')
     for historia in historias:
         await db.historia.create(data=historia)
 
 async def seed_agenda_usuarios():
+    print('--- Migrando agenda usuarios ---')
     for agenda_usuario in agenda_usuarios:
         await db.agendausuario.create(data=agenda_usuario)
 
 async def seed_multimedia_eventos():
+    print('--- Migrando multimedia eventos ---')
     for multimedia_evento in multimedia_eventos:
         await db.multimedia.create(data=multimedia_evento)
 
 async def seed_tipos_documentos():
+    print('--- Migrando tipos documentos ---')
     for tipo_documento in tipos_documentos:
         await db.tipodocumento.create(data=tipo_documento)
 
 async def seed_bibliotecas_eventos():
+    print('--- Migrando bibliotecas eventos ---')
     for biblioteca_evento in bibliotecas_eventos:
         document = await db.biblioteca.create({
             "titulo": biblioteca_evento["titulo"],
@@ -1389,27 +1405,26 @@ async def seed_bibliotecas_eventos():
         
             
 async def main():
-
     await db.connect()
 
-    await asyncio.gather(
-        seed_usuarios(),
-        seed_roles(),
-        seed_usuario_roles(),
-        seed_categorias(),
-        seed_ubicaciones(),
-        seed_eventos_historicos(),
-        seed_eventos_historicos_categorias(),
-        seed_eventos_agendables(),
-        seed_participantes_evento(),
-        seed_presidentes(),
-        seed_culturas(),
-        seed_historias(),
-        seed_agenda_usuarios(),
-        seed_multimedia_eventos(),
-        seed_tipos_documentos(),
-        seed_bibliotecas_eventos(),
-    )
+    # Ejecutar las funciones de seeding en orden secuencial
+    await seed_usuarios()
+    await seed_roles()
+    await seed_usuario_roles()
+    await seed_categorias()
+    await seed_ubicaciones()
+    await seed_eventos_historicos()
+    await seed_eventos_historicos_categorias()
+    await seed_eventos_agendables()
+    await seed_participantes_evento()
+    await seed_presidentes()
+    await seed_culturas()
+    await seed_historias()
+    await seed_agenda_usuarios()
+    await seed_multimedia_eventos()
+    await seed_tipos_documentos()
+    await seed_bibliotecas_eventos()
+
     await db.disconnect()
 
 if __name__ == "__main__":

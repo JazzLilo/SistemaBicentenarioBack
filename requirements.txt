@@ -10,3 +10,4 @@ mysql-connector-python
 flake8==7.0.0
 pylint==3.1.0
 pytz
+python-multipart
