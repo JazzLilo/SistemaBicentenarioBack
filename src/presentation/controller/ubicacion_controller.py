@@ -23,6 +23,25 @@ async def create_location(
         )
     return response
 
+
+@ubicacion_controller.put(
+    "/{id_ubicacion}",
+    response_model=Response,
+)
+async def update_location(
+    id_ubicacion: int,
+    location_data: UbicacionInDB,
+    ubicacion_service: UbicacionService = Depends(build_ubicacion_service)
+) -> Response:
+    response = await ubicacion_service.actualizar_ubicacion(id_ubicacion, location_data)
+    if not response.success:
+        raise HTTPException(
+            status_code=response.status,
+            detail=response.message
+        )
+    return response
+
+
 @ubicacion_controller.get(
     "/",
     response_model=Response,

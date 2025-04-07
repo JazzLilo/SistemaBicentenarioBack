@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from src.core.models.usuario_domain import UsuarioInDB
 from src.core.models.participante_evento_domain import ParticipanteEventoInDB
 from src.core.models.agenda_usuario_domain import AgendaUsuarioInDB
-
+from src.core.models.ubicacion_domain import UbicacionInDB
 class EventoAgendableBase(BaseModel):
     nombre: str
     descripcion: str

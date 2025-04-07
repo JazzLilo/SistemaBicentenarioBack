@@ -17,7 +17,7 @@ class EventoHistoricoService:
         return await self.evento_historico_repository.obtener_evento_historico_por_id(id)
     
     async def actualizar_evento_historico(self, id: int, evento_historico: EventoHistoricoUpdate) -> Response:
-        return await self.evento_historico_repository.actualizar_evento_historico(id, evento_historico)
+        return await self.evento_historico_repository.editar_evento_historico(id, evento_historico)
     
     async def eliminar_evento_historico(self, id: int) -> Response:
         return await self.evento_historico_repository.eliminar_evento_historico(id)

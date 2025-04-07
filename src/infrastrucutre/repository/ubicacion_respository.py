@@ -32,6 +32,34 @@ class UbicacionRepository:
                 message=f"Error al crear ubicación: {str(e)}"
             )
     
+    
+    async def actualizar_ubicacion(self, id_ubicacion: int, ubicacion: UbicacionUpdate) -> Response:
+        try:
+            ubicacion_db = await self.connection.ubicacion.update(
+                where={'id': id_ubicacion},
+                data={
+                    'nombre': ubicacion.nombre,
+                    'latitud': ubicacion.latitud,
+                    'longitud': ubicacion.longitud,
+                    'imagen': ubicacion.imagen,
+                    'descripcion': ubicacion.descripcion
+                }
+            )
+            
+            return Response(
+                status=200,
+                success=True,   
+                message="Ubicación actualizada exitosamente",
+                data=ubicacion_db.id
+            )
+        except Exception as e:
+            return Response(
+                status=400,
+                success=False,
+                message=f"Error al actualizar ubicación: {str(e)}"
+            )
+    
+    
     async def obtener_ubicaciones(self, skip: int = 0, limit: int = 100, tipo:str = None) -> Response:
         try:
             include_options = {
