@@ -13,27 +13,9 @@ class UsuarioService:
         
     async def crear_usuario(self, usuario: UsuarioCreate) -> Response:
         response = await self.user_repository.crear_usuario(usuario)
+        return response
         
-        if not response.success:
-            return response
-        
-        try:
-            usuario_data = response.data
-            subject, html_content = verify_mail(usuario_data["verification_code"])
-        
-            email_sent = await self.email_service.send_email(
-                receiver_email=usuario.correo,
-                subject=subject,
-                html_content=html_content
-            )
-            
-            if not email_sent:
-                print(f"Usuario creado pero falló el envío de correo a {usuario.correo}")
-            return response
-        
-        except Exception as e:
-            print(f"Error al enviar correo de verificación: {str(e)}")
-            return response
+       
     
     async def obtener_usuario_por_email(self, email: str) -> Response:
         return await self.user_repository.obtener_usuario_por_email(email)
@@ -60,7 +42,27 @@ class UsuarioService:
         return await self.user_repository.actualizar_contrasena(email, olf_contrasena, nueva_contrasena)
     
     async def veryficar_exist_email(self, email: str) -> Response:
-        return await self.user_repository.veryficar_exist_email(email)
+        response =  await self.user_repository.veryficar_exist_email(email)
+        if not response.success:
+            try:
+                usuario_data = response.data
+                subject, html_content = verify_mail(usuario_data["verification_code"])
+        
+                email_sent = await self.email_service.send_email(
+                receiver_email=email,
+                subject=subject,
+                html_content=html_content
+                )
+            
+                if not email_sent:
+                    print(f"Usuario creado pero falló el envío de correo a {email}")
+                return response
+        
+            except Exception as e:
+                print(f"Error al enviar correo de verificación: {str(e)}")
+                return response
+            
+        return response
     
     async def reset_password(self, email:str, newPassword:str) -> Response:
         return await self.user_repository.reset_password(email, newPassword)

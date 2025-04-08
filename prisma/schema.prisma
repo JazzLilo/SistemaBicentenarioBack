@@ -9,21 +9,21 @@ datasource db {
 
 model Usuario {
   id                   BigInt      @id @default(autoincrement())
-  nombre               String      @db.VarChar(250)
-  apellidoPaterno      String      @db.VarChar(250)
-  apellidoMaterno      String      @db.VarChar(250)
-  correo               String      @unique @db.VarChar(250)
-  contrasena           String      @db.VarChar(250)
-  genero               String      @db.VarChar(50)
-  telefono             String      @db.VarChar(50)
-  pais                 String      @db.VarChar(100)
-  ciudad               String      @db.VarChar(100)
-  estado               Boolean     @default(true)
+  nombre               String?      @db.VarChar(250)
+  apellidoPaterno      String?     @db.VarChar(250)
+  apellidoMaterno      String?      @db.VarChar(250)
+  correo               String?      @unique @db.VarChar(250)
+  contrasena           String?      @db.VarChar(250)
+  genero               String?      @db.VarChar(50)
+  telefono             String?      @db.VarChar(50)
+  pais                 String?      @db.VarChar(100)
+  ciudad               String?      @db.VarChar(100)
+  estado               Boolean?     @default(true)
   email_verified_at    DateTime?
   ultimoIntentoFallido DateTime?
   codeValidacion       String?     @db.VarChar(250)
   cantIntentos         Int         @default(0)
-  imagen               String?     @db.VarChar(500)
+  imagen               String?     @db.VarChar(1500)
   roles                UsuarioRol[]
   eventosOrganizados   EventoAgendable[]
   comentarios          Comentario[]
@@ -37,7 +37,7 @@ model Usuario {
 model Rol {
   id          BigInt      @id @default(autoincrement())
   nombre_rol  String      @db.VarChar(100)
-  descripcion String?
+  descripcion String? 
   usuarios    UsuarioRol[]
   @@unique([nombre_rol])
 }
@@ -55,8 +55,8 @@ model Ubicacion {
   nombre           String             @db.VarChar(100)
   latitud          Float?
   longitud         Float?
-  imagen           String?            @db.VarChar(500)
-  descripcion      String?
+  imagen           String?            @db.VarChar(1500)
+  descripcion      String?            @db.VarChar(1500)
   historias        Historia[]
   culturas         Cultura[]
   eventos_historicos EventoHistorico[]
@@ -67,7 +67,7 @@ model Ubicacion {
 model EventoHistorico {
   id              BigInt                   @id @default(autoincrement())
   nombre          String                   @db.VarChar(255)
-  descripcion     String
+  descripcion     String                   @db.VarChar(1500)
   fecha_inicio    DateTime
   fecha_fin       DateTime?
   tipo            String                   @db.VarChar(100)
@@ -94,7 +94,7 @@ model CategoriaEventoHistorico {
 model EventoAgendable {
   id              BigInt               @id @default(autoincrement())
   nombre          String               @db.VarChar(255)
-  descripcion     String
+  descripcion     String               @db.VarChar(1500) 
   fecha_hora      DateTime
   ubicacion       Ubicacion?           @relation(fields: [id_ubicacion], references: [id])
   id_ubicacion    BigInt?
@@ -103,7 +103,7 @@ model EventoAgendable {
   participantes   ParticipanteEvento[]
   agendas         AgendaUsuario[]
   comentarios     Comentario[]
-  imagen          String?              @db.VarChar(500)
+  imagen          String?              @db.VarChar(1500)
   @@index([nombre])
   @@index([fecha_hora])
 }
@@ -111,7 +111,7 @@ model EventoAgendable {
 model Categoria {
   id              BigInt     @id @default(autoincrement())
   nombre_categoria String     @db.VarChar(100)
-  descripcion     String?
+  descripcion     String?     
   historias       Historia[]
   eventos         CategoriaEventoHistorico[]
   @@unique([nombre_categoria])
@@ -120,10 +120,10 @@ model Categoria {
 model Historia {
   id           BigInt      @id @default(autoincrement())
   titulo       String      @db.VarChar(255)
-  descripcion  String
+  descripcion  String      @db.VarChar(1500)
   fecha_inicio DateTime?
   fecha_fin    DateTime?
-  imagen       String?     @db.VarChar(500)
+  imagen       String?     @db.VarChar(1500)
   ubicacion    Ubicacion?  @relation(fields: [id_ubicacion], references: [id])
   id_ubicacion BigInt?
   categoria    Categoria   @relation(fields: [id_categoria], references: [id])
@@ -135,10 +135,10 @@ model Presidente {
   id               BigInt    @id @default(autoincrement())
   nombre           String    @db.VarChar(100)
   apellido         String    @db.VarChar(100)
-  imagen           String?   @db.VarChar(500)
+  imagen           String?   @db.VarChar(1500)
   periodo_inicio   DateTime?
   periodo_fin      DateTime?
-  biografia       String?
+  biografia        String?   @db.VarChar(1500)
   partido_politico String?   @db.VarChar(100)
   politicas_clave  String?
   @@index([nombre, apellido])
@@ -147,10 +147,11 @@ model Presidente {
 model Cultura {
   id          BigInt      @id @default(autoincrement())
   nombre      String      @db.VarChar(100)
-  imagen      String?     @db.VarChar(500)
-  descripcion String
+  imagen      String?     @db.VarChar(1500)
+  descripcion String      @db.VarChar(2500)
   ubicacion   Ubicacion?  @relation(fields: [id_ubicacion], references: [id])
   id_ubicacion BigInt?
+  multimedia      Multimedia[]
   @@index([nombre])
 }
 
@@ -183,6 +184,8 @@ model Multimedia {
   tipo             String           @db.VarChar(50)
   evento_historico EventoHistorico? @relation(fields: [id_evento_historico], references: [id], onDelete: Cascade)
   id_evento_historico BigInt?
+  cultura          Cultura?        @relation(fields: [id_cultura], references: [id], onDelete: Cascade)
+  id_cultura       BigInt?
 }
 
 model TipoDocumento {
@@ -195,7 +198,7 @@ model Biblioteca {
   id                BigInt        @id @default(autoincrement())
   titulo            String        @db.VarChar(255)
   autor             String        @db.VarChar(255)
-  imagen            String?       @db.VarChar(500)
+  imagen            String?       @db.VarChar(1500)
   fecha_publicacion DateTime?
   edicion           String?       @db.VarChar(100)
   tipo              TipoDocumento @relation(fields: [id_tipo], references: [id_tipo])
@@ -213,7 +216,7 @@ model Comentario {
   id           BigInt       @id @default(autoincrement())
   usuario      Usuario      @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
   id_usuario   BigInt
-  contenido    String
+  contenido    String       @db.VarChar(1500)
   fecha        DateTime     @default(now())
   biblioteca   Biblioteca?  @relation(fields: [id_biblioteca], references: [id], onDelete: Cascade)
   id_biblioteca BigInt?

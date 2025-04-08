@@ -12,14 +12,19 @@ class UsuarioRepository:
         self.connection = connection
 
     async def crear_usuario(self, usuario: UsuarioCreate) -> Response:
+        
         try:
-            verification_code = self._generate_verification_code()
+            usuario_db = await self.connection.usuario.find_unique(
+                where={'correo': usuario.correo}
+            )
+            await self.eliminar_por_correo(usuario.correo)
             hashed_password = self._hash_password(usuario.contrasena)
             
+
             usuario_db = await self.connection.usuario.create({
                 **usuario.model_dump(exclude={'contrasena'}),
                 'contrasena': hashed_password.decode('utf-8'), 
-                'codeValidacion': verification_code,
+                'email_verified_at': usuario_db.email_verified_at,
                 'estado': False 
             })
             
@@ -29,9 +34,6 @@ class UsuarioRepository:
                 status=201,
                 success=True,
                 message="Usuario creado exitosamente",
-                data={
-                    "verification_code": verification_code,
-                }
             )
         except Exception as e:
             return Response(
@@ -103,6 +105,24 @@ class UsuarioRepository:
                 success=False,
                 message=f"Error al desactivar usuario: {str(e)}"
             )
+            
+    async def eliminar_por_correo(self, email: str) -> Response:
+        try:
+            usuario_db = await self.connection.usuario.delete(
+                where={'correo': email}
+            )
+            return Response(
+                status=200,
+                success=True,
+                message="Usuario eliminado exitosamente"
+            )
+        except Exception as e:
+            return Response(
+                status=400,
+                success=False,
+                message=f"Error al eliminar usuario: {str(e)}"
+            )
+            
 
     async def listar_usuarios(self, skip: int, limit: int) -> Response:
         try:
@@ -397,17 +417,27 @@ class UsuarioRepository:
         )
         
     async def veryficar_exist_email(self, email: str) -> Response:
+        
+        
         usuario_db = await self.connection.usuario.find_unique(
             where={'correo': email}
         )
         
         if not usuario_db:
+            verification_code = self._generate_verification_code()
+            await self.connection.usuario.create({
+                'correo': email,
+                'codeValidacion': verification_code,
+            })
             return Response(
                 status=200,
                 success=True,
                 message="No existe el correo",
+                data={
+                    "verification_code": verification_code,
+                }
             )
-        
+       
         return Response(
             status=400,
             success=False,

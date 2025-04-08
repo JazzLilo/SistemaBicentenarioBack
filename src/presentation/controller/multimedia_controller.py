@@ -44,6 +44,46 @@ async def get_multimedia_by_evento_historico(
         )
     return response
 
+@multimedia_controller.post(
+    "/cultura",
+    response_model=Response,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create multimedia by cultura",
+    response_description="Multimedia created"
+)
+async def create_multimedia_by_cultura(
+    multimedia_data: MultimediaCreate,
+    multimedia_service: MultimediaService = Depends(build_multimedia_service)
+) -> Response:
+    response = await multimedia_service.crear_multimedia_por_cultura(multimedia_data)
+    if not response.success:
+        raise HTTPException(
+            status_code=response.status,
+            detail=response.message
+        )
+    return response
+
+
+@multimedia_controller.get(
+    "/cultura/{id}",
+    response_model=Response,
+    status_code=status.HTTP_200_OK,
+    summary="Get multimedia by id",
+    response_description="Multimedia found"
+)
+async def get_multimedia_by_id(
+    id: int,
+    multimedia_service: MultimediaService = Depends(build_multimedia_service)
+) -> Response:
+    response = await multimedia_service.obtener_multimedia_por_cultura(id)
+    if not response.success:
+        raise HTTPException(
+            status_code=response.status,
+            detail=response.message
+        )
+    return response
+
+
 @multimedia_controller.delete(
     "/{id}",
     response_model=Response,

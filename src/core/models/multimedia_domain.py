@@ -4,6 +4,7 @@ class MultimediaBase(BaseModel):
     url: str
     tipo: str
     id_evento_historico: Optional[int] = None
+    id_cultura: Optional[int] = None
 
 class MultimediaCreate(MultimediaBase):
     pass
