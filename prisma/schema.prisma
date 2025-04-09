@@ -31,7 +31,7 @@ model Usuario {
   favoritos            Favorito[]
   estadisticas         Estadistica[]
   auditorias           Auditoria[]
-  agendas              AgendaUsuario[]
+
 }
 
 model Rol {
@@ -77,7 +77,6 @@ model EventoHistorico {
   documentos      Biblioteca[] @relation("DocumentosEventoHistorico")
   multimedia      Multimedia[]
   categorias      CategoriaEventoHistorico[]
-  agendas         AgendaUsuario[]
   comentarios     Comentario[]
   @@index([nombre])
   @@index([fecha_inicio])
@@ -94,14 +93,18 @@ model CategoriaEventoHistorico {
 model EventoAgendable {
   id              BigInt               @id @default(autoincrement())
   nombre          String               @db.VarChar(255)
-  descripcion     String               @db.VarChar(1500) 
+  categoria       String?              @db.VarChar(100)
+  tabla_referenciada String?              @db.VarChar(100)
+  id_referenciado BigInt? 
+  tipo            String?              @db.VarChar(100)
+  estado          String?              @db.VarChar(100)
+  descripcion     String               @db.VarChar(3500) 
   fecha_hora      DateTime
   ubicacion       Ubicacion?           @relation(fields: [id_ubicacion], references: [id])
   id_ubicacion    BigInt?
   organizador     Usuario              @relation(fields: [id_organizador], references: [id])
   id_organizador  BigInt
   participantes   ParticipanteEvento[]
-  agendas         AgendaUsuario[]
   comentarios     Comentario[]
   imagen          String?              @db.VarChar(1500)
   @@index([nombre])
@@ -160,23 +163,12 @@ model ParticipanteEvento {
   id_evento        BigInt
   usuario          Usuario        @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
   evento           EventoAgendable @relation(fields: [id_evento], references: [id], onDelete: Cascade)
-  estado_asistencia Boolean       @default(false)
+  estado_asistencia BigInt       @default(0)
   @@id([id_usuario, id_evento])
   @@index([id_evento])
 }
 
-model AgendaUsuario {
-  id                BigInt           @id @default(autoincrement())
-  usuario           Usuario          @relation(fields: [id_usuario], references: [id], onDelete: Cascade)
-  id_usuario        BigInt
-  evento_historico  EventoHistorico? @relation(fields: [id_evento_historico], references: [id], onDelete: Cascade)
-  id_evento_historico BigInt?
-  evento_agendable  EventoAgendable? @relation(fields: [id_evento_agendable], references: [id], onDelete: Cascade)
-  id_evento_agendable BigInt?
-  fecha_recordatorio DateTime?
-  @@index([id_usuario])
-  @@unique([id_usuario, id_evento_historico, id_evento_agendable])
-}
+
 
 model Multimedia {
   id               BigInt           @id @default(autoincrement())
