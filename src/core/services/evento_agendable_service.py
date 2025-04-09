@@ -27,7 +27,9 @@ class EventoAgendableService:
         return await self.evento_agendable_repository.eliminar_evento_agendable(id)
     
     async def obtener_eventos_agendables_por_organizador(self, id_organizador: int) -> Response:
-        return await self.evento_agendable_repository.obtener_eventos_por_organizador(id_organizador)
+        return await self.evento_agendable_repository.obtener_eventos_agendables_por_organizador(id_organizador)
     
-    async def obtener_eventos_por_nombre(self, nombre: str) -> Response:
-        return await self.evento_agendable_repository.buscar_eventos_por_nombre(nombre)
+    async def obtener_categorias(self) -> Response:
+        return await self.evento_agendable_repository.obtener_categorias()
+    
+    

@@ -1,6 +1,5 @@
 from prisma import Prisma
 from src.core.models.evento_agendable_domain import (
-    
     EventoAgendableCreate,
     EventoAgendableInDB,
     EventoAgendableUpdate,
@@ -16,6 +15,8 @@ class EventoAgendableRepository:
         try:
             evento_db = await self.connection.eventoagendable.create({
                 'nombre': evento.nombre,
+                'categoria': evento.categoria,
+                'estado': evento.estado,
                 'descripcion': evento.descripcion,
                 'fecha_hora': evento.fecha_hora,
                 'id_ubicacion': evento.id_ubicacion,
@@ -34,6 +35,27 @@ class EventoAgendableRepository:
                 status=400,
                 success=False,
                 message=f"Error al crear evento agendable: {str(e)}"
+            )
+    
+    async def obtener_categorias(self) -> Response:
+        try:
+            categorias = await self.connection.query_raw(
+                'SELECT DISTINCT categoria FROM EventoAgendable WHERE categoria IS NOT NULL'
+            )
+            
+            categorias_list = [c['categoria'] for c in categorias if c['categoria']]
+            print(categorias_list)
+            return Response(
+                status=200,
+                success=True,
+                message="Categorías obtenidas",
+                data=categorias_list
+            )
+        except Exception as e:
+            return Response(
+                status=500,
+                success=False,
+                message=f"Error al obtener categorías: {str(e)}"
             )
     
     async def obtener_eventos_agendables(self, skip: int = 0, limit: int = 100) -> Response:
@@ -79,7 +101,7 @@ class EventoAgendableRepository:
                     message="Evento agendable no encontrado"
                 )
                 
-            evento =[ EventoAgendableInDB.model_validate(evento_db)]
+            evento = EventoAgendableInDB.model_validate(evento_db)
             
             return Response(
                 status=200,
@@ -96,7 +118,8 @@ class EventoAgendableRepository:
     
     async def actualizar_evento_agendable(self, id: int, evento: EventoAgendableUpdate) -> Response:
         try:
-            update_data = {k: v for k, v in evento.model_dump().items() if v is not None}
+            update_data = {k: v for k, v in evento.model_dump(exclude_unset=True).items()}
+            
             
             evento_db = await self.connection.eventoagendable.update(
                 where={'id': id},
@@ -115,7 +138,32 @@ class EventoAgendableRepository:
                 success=False,
                 message=f"Error al actualizar evento agendable: {str(e)}"
             )
-    
+
+    async def obtener_eventos_agendables_por_organizador(self, id_organizador: int) -> Response:
+        try:
+            eventos_db = await self.connection.eventoagendable.find_many(
+                where={'id_organizador': id_organizador},
+                include={
+                    'ubicacion': True,
+                    'organizador': True
+                }
+            )
+            
+            eventos = [EventoAgendableInDB.model_validate(e.model_dump()) for e in eventos_db]
+            
+            return Response(
+                status=200,
+                success=True,
+                message=f"Se encontraron {len(eventos)} eventos agendables para el organizador",
+                data=eventos
+            )
+        except Exception as e:
+            return Response(
+                status=500,
+                success=False,
+                message=f"Error al obtener eventos agendables por organizador: {str(e)}"
+            )
+            
     async def eliminar_evento_agendable(self, id: int) -> Response:
         try:
             evento_db = await self.connection.eventoagendable.delete(
@@ -133,59 +181,4 @@ class EventoAgendableRepository:
                 status=400,
                 success=False,
                 message=f"Error al eliminar evento agendable: {str(e)}"
-            )
-    
-    async def obtener_eventos_por_organizador(self, id_organizador: int) -> Response:
-        try:
-            eventos_db = await self.connection.eventoagendable.find_many(
-                where={'id_organizador': id_organizador},
-                include={
-                    'ubicacion': True,
-                    'organizador': True
-                }
-            )
-            
-            eventos = [EventoAgendableInDB.model_validate(e.model_dump()) for e in eventos_db]
-            
-            return Response(
-                status=200,
-                success=True,
-                message=f"Se encontraron {len(eventos)} eventos para el organizador",
-                data=eventos
-            )
-        except Exception as e:
-            return Response(
-                status=500,
-                success=False,
-                message=f"Error al obtener eventos del organizador: {str(e)}"
-            )
-    
-    async def buscar_eventos_por_nombre(self, nombre: str) -> Response:
-        try:
-            eventos_db = await self.connection.eventoagendable.find_many(
-                where={
-                    'nombre': {
-                        'contains': nombre,
-                        'mode': 'insensitive'
-                    }
-                },
-                include={
-                    'ubicacion': True,
-                    'organizador': True
-                }
-            )
-            
-            eventos = [EventoAgendableInDB.model_validate(e.model_dump()) for e in eventos_db]
-            
-            return Response(
-                status=200,
-                success=True,
-                message=f"Se encontraron {len(eventos)} eventos con el nombre buscado",
-                data=eventos
-            )
-        except Exception as e:
-            return Response(
-                status=500,
-                success=False,
-                message=f"Error al buscar eventos: {str(e)}"
             )

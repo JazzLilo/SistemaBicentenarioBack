@@ -511,7 +511,8 @@ eventos_agendables = [
         "fecha_hora": "2023-08-10T10:00:00Z",
         "id_ubicacion": 1,
         "id_organizador": 2,
-        "imagen": "https://example.com/feria_libro.jpg"
+        "imagen": "https://example.com/feria_libro.jpg",
+        "categoria": "Literatura"
     },
     {
         "nombre": "Festival Internacional de Cultura",
@@ -519,7 +520,8 @@ eventos_agendables = [
         "fecha_hora": "2023-09-15T18:00:00Z",
         "id_ubicacion": 3,
         "id_organizador": 5,
-        "imagen": "https://example.com/festival_cultura.jpg"
+        "imagen": "https://example.com/festival_cultura.jpg",
+        "categoria": "Festival"
     },
     {
         "nombre": "Conferencia sobre Historia Boliviana",
@@ -527,7 +529,8 @@ eventos_agendables = [
         "fecha_hora": "2023-07-20T16:00:00Z",
         "id_ubicacion": 7,
         "id_organizador": 4,
-        "imagen": "https://example.com/conferencia_historia.jpg"
+        "imagen": "https://example.com/conferencia_historia.jpg",
+        "categoria": "Historia"
     },
     {
         "nombre": "Taller de Danzas Folklóricas",
@@ -535,7 +538,8 @@ eventos_agendables = [
         "fecha_hora": "2023-08-05T15:00:00Z",
         "id_ubicacion": 2,
         "id_organizador": 3,
-        "imagen": "https://example.com/taller_danzas.jpg"
+        "imagen": "https://example.com/taller_danzas.jpg",
+        "categoria": "Arte"
     },
     {
         "nombre": "Exposición de Arte Colonial",
@@ -543,7 +547,8 @@ eventos_agendables = [
         "fecha_hora": "2023-09-01T09:00:00Z",
         "id_ubicacion": 5,
         "id_organizador": 1,
-        "imagen": "https://example.com/arte_colonial.jpg"
+        "imagen": "https://example.com/arte_colonial.jpg",
+        "categoria": "Arte"
     },
     {
         "nombre": "Semana de la Revolución",
@@ -551,7 +556,8 @@ eventos_agendables = [
         "fecha_hora": "2023-04-09T10:00:00Z",
         "id_ubicacion": 1,
         "id_organizador": 6,
-        "imagen": "https://example.com/semana_revolucion.jpg"
+        "imagen": "https://example.com/semana_revolucion.jpg",
+        "categoria": "Historia"
     },
     {
         "nombre": "Recorrido Guiado por Tiwanaku",
@@ -559,7 +565,8 @@ eventos_agendables = [
         "fecha_hora": "2023-10-12T08:00:00Z",
         "id_ubicacion": 4,
         "id_organizador": 3,
-        "imagen": "https://example.com/tiwanaku_tour.jpg"
+        "imagen": "https://example.com/tiwanaku_tour.jpg",
+        "categoria": "Arqueología"
     },
     {
         "nombre": "Festival Gastronómico Boliviano",
@@ -567,7 +574,8 @@ eventos_agendables = [
         "fecha_hora": "2023-11-20T12:00:00Z",
         "id_ubicacion": 3,
         "id_organizador": 5,
-        "imagen": "https://example.com/festival_gastronomico.jpg"
+        "imagen": "https://example.com/festival_gastronomico.jpg",
+        "categoria": "Gastronomía"
     },
     {
         "nombre": "Concierto de Música Barroca",
@@ -575,7 +583,8 @@ eventos_agendables = [
         "fecha_hora": "2023-09-30T19:00:00Z",
         "id_ubicacion": 15,
         "id_organizador": 3,
-        "imagen": "https://example.com/musica_barroca.jpg"
+        "imagen": "https://example.com/musica_barroca.jpg",
+        "categoria": "Música"
     },
     {
         "nombre": "Charla sobre Evo Morales",
@@ -583,7 +592,8 @@ eventos_agendables = [
         "fecha_hora": "2023-10-25T17:00:00Z",
         "id_ubicacion": 1,
         "id_organizador": 4,
-        "imagen": "https://example.com/charla_evo.jpg"
+        "imagen": "https://example.com/charla_evo.jpg",
+        "categoria": "Política"
     },
     {
         "nombre": "Exhibición de Textiles Andinos",
@@ -591,15 +601,18 @@ eventos_agendables = [
         "fecha_hora": "2023-08-15T10:00:00Z",
         "id_ubicacion": 9,
         "id_organizador": 3,
-        "imagen": "https://example.com/textiles_andinos.jpg"
+        "imagen": "https://example.com/textiles_andinos.jpg",
+        "categoria": "Artesanía"
     },
+    # Eventos sin relación (mantenidos originales)
     {
         "nombre": "Foro sobre el Cambio Climático",
         "descripcion": "Discusión sobre los efectos del cambio climático en Bolivia",
         "fecha_hora": "2023-11-05T15:00:00Z",
         "id_ubicacion": 6,
         "id_organizador": 4,
-        "imagen": "https://example.com/foro_climatico.jpg"
+        "imagen": "https://example.com/foro_climatico.jpg",
+        "categoria": "Medio Ambiente"
     },
     {
         "nombre": "Taller de Cocina Boliviana",
@@ -607,7 +620,8 @@ eventos_agendables = [
         "fecha_hora": "2023-09-10T14:00:00Z",
         "id_ubicacion": 2,
         "id_organizador": 5,
-        "imagen": "https://example.com/taller_cocina.jpg"
+        "imagen": "https://example.com/taller_cocina.jpg",
+        "categoria": "Gastronomía"
     },
     {
         "nombre": "Exposición Fotográfica del Salar",
@@ -615,7 +629,8 @@ eventos_agendables = [
         "fecha_hora": "2023-10-01T11:00:00Z",
         "id_ubicacion": 3,
         "id_organizador": 1,
-        "imagen": "https://example.com/expo_fotografica.jpg"
+        "imagen": "https://example.com/expo_fotografica.jpg",
+        "categoria": "Fotografía"
     },
     {
         "nombre": "Celebración del Año Nuevo Aymara",
@@ -623,26 +638,28 @@ eventos_agendables = [
         "fecha_hora": "2023-06-21T06:00:00Z",
         "id_ubicacion": 4,
         "id_organizador": 3,
-        "imagen": "https://example.com/ano_nuevo_aymara.jpg"
+        "imagen": "https://example.com/ano_nuevo_aymara.jpg",
+        "categoria": "Tradiciones"
     }
 ]
 
+
 participantes_evento = [
-    {"id_usuario": 1, "id_evento": 1, "estado_asistencia": True},
-    {"id_usuario": 2, "id_evento": 2, "estado_asistencia": True},
-    {"id_usuario": 3, "id_evento": 3, "estado_asistencia": False},
-    {"id_usuario": 4, "id_evento": 4, "estado_asistencia": True},
-    {"id_usuario": 5, "id_evento": 5, "estado_asistencia": False},
-    {"id_usuario": 6, "id_evento": 6, "estado_asistencia": True},
-    {"id_usuario": 7, "id_evento": 7, "estado_asistencia": False},
-    {"id_usuario": 8, "id_evento": 8, "estado_asistencia": True},
-    {"id_usuario": 9, "id_evento": 9, "estado_asistencia": False},
-    {"id_usuario": 10, "id_evento": 10, "estado_asistencia": True},
-    {"id_usuario": 11, "id_evento": 11, "estado_asistencia": False},
-    {"id_usuario": 12, "id_evento": 12, "estado_asistencia": True},
-    {"id_usuario": 13, "id_evento": 13, "estado_asistencia": False},
-    {"id_usuario": 14, "id_evento": 14, "estado_asistencia": True},
-    {"id_usuario": 15, "id_evento": 15, "estado_asistencia": False}
+    {"id_usuario": 1, "id_evento": 1, "estado_asistencia": 0},
+    {"id_usuario": 2, "id_evento": 2, "estado_asistencia": 0},
+    {"id_usuario": 3, "id_evento": 3, "estado_asistencia": 1},
+    {"id_usuario": 4, "id_evento": 4, "estado_asistencia": 1},
+    {"id_usuario": 5, "id_evento": 5, "estado_asistencia": 1},
+    {"id_usuario": 6, "id_evento": 6, "estado_asistencia": 0},
+    {"id_usuario": 7, "id_evento": 7, "estado_asistencia": 1},
+    {"id_usuario": 8, "id_evento": 8, "estado_asistencia": 1},
+    {"id_usuario": 9, "id_evento": 9, "estado_asistencia": 0},
+    {"id_usuario": 10, "id_evento": 10, "estado_asistencia": 0},
+    {"id_usuario": 11, "id_evento": 11, "estado_asistencia": 0},
+    {"id_usuario": 12, "id_evento": 12, "estado_asistencia": 0},
+    {"id_usuario": 13, "id_evento": 13, "estado_asistencia": 1},
+    {"id_usuario": 14, "id_evento": 14, "estado_asistencia": 1},
+    {"id_usuario": 15, "id_evento": 15, "estado_asistencia": 0}
 ]
 
 presidentes = [
@@ -1066,18 +1083,6 @@ historias = [
     }
 ]
 
-
-agenda_usuarios = [
-  { "id_usuario": 2, "id_evento_agendable": 2, "fecha_recordatorio": "2025-04-06T09:00:00Z" },
-  { "id_usuario": 1, "id_evento_agendable": 1, "fecha_recordatorio": "2025-04-06T09:00:00Z" },
-  { "id_usuario": 4, "id_evento_agendable": 4, "fecha_recordatorio": "2025-04-06T09:00:00Z" },
-  { "id_usuario": 6, "id_evento_agendable": 6, "fecha_recordatorio": "2025-04-06T09:00:00Z" },
-  { "id_usuario": 8, "id_evento_agendable": 8, "fecha_recordatorio": "2025-04-06T09:00:00Z" },
-  { "id_usuario": 10, "id_evento_agendable": 10, "fecha_recordatorio": "2025-04-06T09:00:00Z" },
-  { "id_usuario": 12, "id_evento_agendable": 12, "fecha_recordatorio": "2025-04-06T09:00:00Z" },
-  { "id_usuario": 14, "id_evento_agendable": 14, "fecha_recordatorio": "2025-04-06T09:00:00Z" }
-]
-
 multimedia_eventos = [
   { "url": "https://ejemplo.com/imagenes/independencia_bolivia.jpg", "tipo": "imagen", "id_evento_historico": 1 },
   { "url": "https://ejemplo.com/imagenes/guerra_pacifico.jpg", "tipo": "imagen", "id_evento_historico": 2 },
@@ -1374,11 +1379,6 @@ async def seed_historias():
     for historia in historias:
         await db.historia.create(data=historia)
 
-async def seed_agenda_usuarios():
-    print('--- Migrando agenda usuarios ---')
-    for agenda_usuario in agenda_usuarios:
-        await db.agendausuario.create(data=agenda_usuario)
-
 async def seed_multimedia_eventos():
     print('--- Migrando multimedia eventos ---')
     for multimedia_evento in multimedia_eventos:
@@ -1420,7 +1420,6 @@ async def main():
     await seed_presidentes()
     await seed_culturas()
     await seed_historias()
-    await seed_agenda_usuarios()
     await seed_multimedia_eventos()
     await seed_tipos_documentos()
     await seed_bibliotecas_eventos()

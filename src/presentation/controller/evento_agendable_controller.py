@@ -121,21 +121,24 @@ async def get_eventos_agendables_por_organizador(
         )
     return response
 
+
 @evento_agendable_controller.get(
-    "/nombre/{nombre}",
-    response_model=Response,
-    status_code=status.HTTP_200_OK,
-    summary="Get events by name",
-    response_description="List of events by name"
+    "/categoriasEve/{id}",
+    response_model=Response,  # Agregar response model
+    status_code=status.HTTP_200_OK,  # Especificar código de estado
+    summary="Get categories",
+    response_description="List of categories"
 )
-async def get_eventos_agendables_por_nombre(
-    nombre: str,
+async def get_categories(
+    id: int,
     evento_agendable_service: EventoAgendableService = Depends(build_evento_agendable_service)
 ) -> Response:
-    response = await evento_agendable_service.obtener_eventos_por_nombre(nombre)
+    response = await evento_agendable_service.obtener_categorias()
     if not response.success:
         raise HTTPException(
             status_code=response.status,
             detail=response.message
         )
     return response
+
+# El resto de los endpoints mantienen su orden original...

@@ -94,9 +94,6 @@ model EventoAgendable {
   id              BigInt               @id @default(autoincrement())
   nombre          String               @db.VarChar(255)
   categoria       String?              @db.VarChar(100)
-  tabla_referenciada String?              @db.VarChar(100)
-  id_referenciado BigInt? 
-  tipo            String?              @db.VarChar(100)
   estado          String?              @db.VarChar(100)
   descripcion     String               @db.VarChar(3500) 
   fecha_hora      DateTime

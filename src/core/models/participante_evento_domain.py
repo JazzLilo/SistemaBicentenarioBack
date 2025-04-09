@@ -5,13 +5,13 @@ from src.core.models.usuario_domain import UsuarioInDB
 class ParticipanteEventoBase(BaseModel):
     id_usuario: int
     id_evento: int
-    estado_asistencia: bool = False
+    estado_asistencia: int = 0
 
 class ParticipanteEventoCreate(ParticipanteEventoBase):
     pass
 
 class ParticipanteEventoUpdate(BaseModel):
-    estado_asistencia: Optional[bool] = None
+    estado_asistencia: Optional[int] = None
 
 class ParticipanteEventoInDB(ParticipanteEventoBase):
     class Config:
