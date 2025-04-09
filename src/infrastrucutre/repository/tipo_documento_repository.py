@@ -71,7 +71,7 @@ class TipoDocumentoRepository:
                     ]
                 
                 tipos_con_relaciones.append(
-                    TipoDocumentoWithRelations.model_validate(tipo_dict)
+                    tipo_dict
                 )
 
             return Response(

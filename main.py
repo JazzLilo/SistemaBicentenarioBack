@@ -21,7 +21,9 @@ from src.presentation.controller.historia_controller import historia_controller
 from src.presentation.controller.cultura_controller import cultura_controller
 from src.presentation.controller.biblioteca_controller import biblioteca_controller
 from src.presentation.controller.comentario_controller import comentario_controller
+from src.presentation.controller.tipo_documento_controller import tipo_documento_controller
 from src.presentation.controller.files_controller import files_controller	
+
 
 logging.basicConfig(level=logging.DEBUG)    
 logger = logging.getLogger(__name__)
@@ -54,6 +56,7 @@ app.include_router(historia_controller)
 app.include_router(cultura_controller)
 app.include_router(biblioteca_controller)
 app.include_router(comentario_controller)
+app.include_router(tipo_documento_controller)
 app.include_router(files_controller)
 
 if __name__ == "__main__":

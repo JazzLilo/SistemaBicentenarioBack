@@ -43,7 +43,7 @@ class UsuarioService:
     
     async def veryficar_exist_email(self, email: str) -> Response:
         response =  await self.user_repository.veryficar_exist_email(email)
-        if not response.success:
+        if response.success:
             try:
                 usuario_data = response.data
                 subject, html_content = verify_mail(usuario_data["verification_code"])

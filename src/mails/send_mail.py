@@ -31,5 +31,7 @@ class EmailService:
                 server.sendmail(self.sender, receiver_email, message.as_string())
             return True
         except Exception as e:
+            
             print(f"Error al enviar correo a {receiver_email}: {str(e)}")
+            input()
             return False

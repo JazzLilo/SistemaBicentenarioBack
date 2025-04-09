@@ -141,8 +141,6 @@ class BibliotecaRepository:
                 data=update_values,
                 include={
                     'tipo': True,
-                    'eventos_historicos': True,
-                    'comentarios': True
                 }
             )
 
@@ -152,27 +150,14 @@ class BibliotecaRepository:
                 
                 biblio_dict['tipo'] = TipoDocumentoInDB.model_validate(biblioteca_actualizada.tipo.model_dump())
             
-            if biblioteca_actualizada.eventos_historicos:
-                
-                biblio_dict['eventos_historicos'] = [
-                    EventoHistoricoInDB.model_validate(e.model_dump())
-                    for e in biblioteca_actualizada.eventos_historicos
-                ]
-            
-            if biblioteca_actualizada.comentarios:
-                
-                biblio_dict['comentarios'] = [
-                    ComentarioInDB.model_validate(c.model_dump())
-                    for c in biblioteca_actualizada.comentarios
-                ]
+          
 
-            biblio_with_relations = BibliotecaWithRelations.model_validate(biblio_dict)
             
             return Response(
                 status=200,
                 success=True,
                 message="Documento bibliográfico actualizado exitosamente",
-                data=biblio_with_relations
+                data=biblio_dict
             )
         except Exception as e:
             return Response(
@@ -246,11 +231,7 @@ class BibliotecaRepository:
                     biblio_dict['tipo'] = TipoDocumentoInDB.model_validate(biblio.tipo.model_dump())
                 
                 bibliotecas_con_relaciones.append(
-                    BibliotecaWithRelations(
-                        **biblio_dict,
-                        eventos_historicos=[],
-                        comentarios=[]
-                    )
+                    biblio_dict
                 )
 
             return Response(

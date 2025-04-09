@@ -17,7 +17,7 @@ class BibliotecaService:
         
     
     async def crear_biblioteca(self, biblioteca: BibliotecaCreate) -> Response:
-        return await self.repository.create(biblioteca)
+        return await self.repository.crear_biblioteca(biblioteca)
     
     async def obtener_biblioteca(self, id: int) -> Response:
         return await self.repository.obtener_biblioteca(id)
