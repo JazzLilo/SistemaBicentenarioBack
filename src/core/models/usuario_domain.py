@@ -41,6 +41,8 @@ class UsuarioRole(BaseModel):
     roles: list[str]
     
 
+    
+
 class UsuarioUpdate(BaseModel):
     nombre: Optional[str] = None
     apellidoPaterno: Optional[str] = None
@@ -57,6 +59,9 @@ class UsuarioInDB(UsuarioBase):
     email_verified_at: Optional[datetime] = None
     ultimoIntentoFallido: Optional[datetime] = None
     cantIntentos: Optional[int] = None
+    
+class UsuarioResponse(UsuarioInDB):
+    roles: list[str]
 
 class UsuarioCreateResponse(UsuarioInDB):
     verification_token: str     

@@ -21,9 +21,6 @@ class EventoAgendableUpdate(BaseModel):
     nombre: Optional[str] = None
     descripcion: Optional[str] = None
     categoria: Optional[str] = None
-    tabla_referenciada: Optional[str] = None  # Corregido
-    id_referenciado: Optional[int] = None
-    tipo: Optional[str] = None
     estado: Optional[str] = None
     fecha_hora: Optional[datetime] = None
     id_ubicacion: Optional[int] = None

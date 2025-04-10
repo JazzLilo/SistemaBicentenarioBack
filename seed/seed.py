@@ -508,7 +508,7 @@ eventos_agendables = [
     {
         "nombre": "Feria del Libro de La Paz",
         "descripcion": "Evento anual que reúne a editoriales y autores nacionales e internacionales",
-        "fecha_hora": "2023-08-10T10:00:00Z",
+        "fecha_hora": "2025-08-10T10:00:00Z",
         "id_ubicacion": 1,
         "id_organizador": 2,
         "imagen": "https://example.com/feria_libro.jpg",
@@ -517,7 +517,7 @@ eventos_agendables = [
     {
         "nombre": "Festival Internacional de Cultura",
         "descripcion": "Celebración de la diversidad cultural boliviana con artistas internacionales",
-        "fecha_hora": "2023-09-15T18:00:00Z",
+        "fecha_hora": "2025-09-15T18:00:00Z",
         "id_ubicacion": 3,
         "id_organizador": 5,
         "imagen": "https://example.com/festival_cultura.jpg",
@@ -526,7 +526,7 @@ eventos_agendables = [
     {
         "nombre": "Conferencia sobre Historia Boliviana",
         "descripcion": "Charla con expertos sobre los hitos históricos más importantes del país",
-        "fecha_hora": "2023-07-20T16:00:00Z",
+        "fecha_hora": "2025-07-20T16:00:00Z",
         "id_ubicacion": 7,
         "id_organizador": 4,
         "imagen": "https://example.com/conferencia_historia.jpg",
@@ -535,7 +535,7 @@ eventos_agendables = [
     {
         "nombre": "Taller de Danzas Folklóricas",
         "descripcion": "Aprende las danzas tradicionales de las diferentes regiones de Bolivia",
-        "fecha_hora": "2023-08-05T15:00:00Z",
+        "fecha_hora": "2025-08-05T15:00:00Z",
         "id_ubicacion": 2,
         "id_organizador": 3,
         "imagen": "https://example.com/taller_danzas.jpg",
@@ -544,7 +544,7 @@ eventos_agendables = [
     {
         "nombre": "Exposición de Arte Colonial",
         "descripcion": "Muestra de pinturas y esculturas del periodo colonial en Bolivia",
-        "fecha_hora": "2023-09-01T09:00:00Z",
+        "fecha_hora": "2025-09-01T09:00:00Z",
         "id_ubicacion": 5,
         "id_organizador": 1,
         "imagen": "https://example.com/arte_colonial.jpg",
@@ -553,7 +553,7 @@ eventos_agendables = [
     {
         "nombre": "Semana de la Revolución",
         "descripcion": "Eventos conmemorativos de la Revolución Nacional de 1952",
-        "fecha_hora": "2023-04-09T10:00:00Z",
+        "fecha_hora": "2025-04-09T10:00:00Z",
         "id_ubicacion": 1,
         "id_organizador": 6,
         "imagen": "https://example.com/semana_revolucion.jpg",
@@ -562,7 +562,7 @@ eventos_agendables = [
     {
         "nombre": "Recorrido Guiado por Tiwanaku",
         "descripcion": "Visita guiada por las ruinas arqueológicas con expertos",
-        "fecha_hora": "2023-10-12T08:00:00Z",
+        "fecha_hora": "2025-10-12T08:00:00Z",
         "id_ubicacion": 4,
         "id_organizador": 3,
         "imagen": "https://example.com/tiwanaku_tour.jpg",
@@ -571,7 +571,7 @@ eventos_agendables = [
     {
         "nombre": "Festival Gastronómico Boliviano",
         "descripcion": "Degustación de platos típicos de todas las regiones del país",
-        "fecha_hora": "2023-11-20T12:00:00Z",
+        "fecha_hora": "2025-11-20T12:00:00Z",
         "id_ubicacion": 3,
         "id_organizador": 5,
         "imagen": "https://example.com/festival_gastronomico.jpg",
@@ -580,7 +580,7 @@ eventos_agendables = [
     {
         "nombre": "Concierto de Música Barroca",
         "descripcion": "Interpretación de obras del periodo barroco en las misiones jesuíticas",
-        "fecha_hora": "2023-09-30T19:00:00Z",
+        "fecha_hora": "2025-09-30T19:00:00Z",
         "id_ubicacion": 15,
         "id_organizador": 3,
         "imagen": "https://example.com/musica_barroca.jpg",
@@ -589,7 +589,7 @@ eventos_agendables = [
     {
         "nombre": "Charla sobre Evo Morales",
         "descripcion": "Análisis del gobierno del primer presidente indígena de Bolivia",
-        "fecha_hora": "2023-10-25T17:00:00Z",
+        "fecha_hora": "2025-10-25T17:00:00Z",
         "id_ubicacion": 1,
         "id_organizador": 4,
         "imagen": "https://example.com/charla_evo.jpg",
@@ -598,17 +598,16 @@ eventos_agendables = [
     {
         "nombre": "Exhibición de Textiles Andinos",
         "descripcion": "Muestra de tejidos tradicionales y su significado cultural",
-        "fecha_hora": "2023-08-15T10:00:00Z",
+        "fecha_hora": "2025-08-15T10:00:00Z",
         "id_ubicacion": 9,
         "id_organizador": 3,
         "imagen": "https://example.com/textiles_andinos.jpg",
         "categoria": "Artesanía"
     },
-    # Eventos sin relación (mantenidos originales)
     {
         "nombre": "Foro sobre el Cambio Climático",
         "descripcion": "Discusión sobre los efectos del cambio climático en Bolivia",
-        "fecha_hora": "2023-11-05T15:00:00Z",
+        "fecha_hora": "2025-11-05T15:00:00Z",
         "id_ubicacion": 6,
         "id_organizador": 4,
         "imagen": "https://example.com/foro_climatico.jpg",
@@ -617,7 +616,7 @@ eventos_agendables = [
     {
         "nombre": "Taller de Cocina Boliviana",
         "descripcion": "Aprende a preparar platos típicos como el saice y el silpancho",
-        "fecha_hora": "2023-09-10T14:00:00Z",
+        "fecha_hora": "2025-09-10T14:00:00Z",
         "id_ubicacion": 2,
         "id_organizador": 5,
         "imagen": "https://example.com/taller_cocina.jpg",
@@ -626,7 +625,7 @@ eventos_agendables = [
     {
         "nombre": "Exposición Fotográfica del Salar",
         "descripcion": "Fotografías que capturan la belleza del Salar de Uyuni en diferentes épocas",
-        "fecha_hora": "2023-10-01T11:00:00Z",
+        "fecha_hora": "2025-10-01T11:00:00Z",
         "id_ubicacion": 3,
         "id_organizador": 1,
         "imagen": "https://example.com/expo_fotografica.jpg",
@@ -635,7 +634,7 @@ eventos_agendables = [
     {
         "nombre": "Celebración del Año Nuevo Aymara",
         "descripcion": "Ceremonia tradicional de recibimiento del nuevo año andino",
-        "fecha_hora": "2023-06-21T06:00:00Z",
+        "fecha_hora": "2025-06-21T06:00:00Z",
         "id_ubicacion": 4,
         "id_organizador": 3,
         "imagen": "https://example.com/ano_nuevo_aymara.jpg",

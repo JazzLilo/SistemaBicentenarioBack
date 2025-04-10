@@ -1,5 +1,5 @@
 from prisma import Prisma
-from src.core.models.usuario_domain import UsuarioInDB, UsuarioCreate, UsuarioUpdate, UsuarioCreateResponse    
+from src.core.models.usuario_domain import UsuarioInDB, UsuarioCreate, UsuarioUpdate, UsuarioResponse
 from src.responses.response import Response
 import bcrypt
 from datetime import datetime, timedelta
@@ -126,11 +126,26 @@ class UsuarioRepository:
 
     async def listar_usuarios(self, skip: int, limit: int) -> Response:
         try:
+            # Obtener usuarios incluyendo roles
             usuarios_db = await self.connection.usuario.find_many(
                 skip=skip,
-                take=limit
+                take=limit,
+                include={
+                    'roles': {
+                        'include': {
+                            'rol': True  # Incluye la relación Rol
+                        }
+                    }
+                }
             )
-            usuarios = [UsuarioInDB.model_validate(u.model_dump()) for u in usuarios_db]
+            
+            # Convertir a modelo de respuesta con roles
+            usuarios = [
+                UsuarioResponse.model_validate(
+                    {**u.model_dump(), "roles": [r.rol.nombre_rol for r in u.roles]}
+                ) for u in usuarios_db
+            ]
+            
             return Response(
                 status=200,
                 success=True,
