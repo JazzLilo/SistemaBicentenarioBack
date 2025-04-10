@@ -2,6 +2,8 @@ Crear el entorno
 
 instalar las librerias de requirements.txt al crear el entorno
 
+borrar la base de datos ya cargada y luego recien hacer los siguientes pasos
+
 prisma generate
 
 prisma migrate dev
